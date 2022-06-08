@@ -1,0 +1,39 @@
+{
+    "name": "tcc1",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "serve": "vue-cli-service serve",
+        "build": "vue-cli-service build",
+        "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
+        "format": "prettier .  --write",
+        "prepare": "husky install"
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^6.1.1",
+        "@fortawesome/free-brands-svg-icons": "^6.1.1",
+        "@fortawesome/free-regular-svg-icons": "^6.1.1",
+        "@fortawesome/free-solid-svg-icons": "^6.1.1",
+        "@fortawesome/vue-fontawesome": "^3.0.0-5",
+        "core-js": "^3.8.3",
+        "firebase": "^9.6.10",
+        "vue": "^3.2.13",
+        "vue-router": "^4.0.3",
+        "vue-sidebar-menu": "^5.2.2",
+        "vue-sidebar-menu-akahon": "^0.1.4"
+    },
+    "devDependencies": {
+        "@vue/cli-plugin-babel": "^5.0.4",
+        "@vue/cli-plugin-router": "^5.0.4",
+        "@vue/cli-service": "^5.0.4",
+        "eslint": "^8.12.0",
+        "eslint-config-airbnb-base": "^15.0.0",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-plugin-import": "^2.22.1",
+        "eslint-plugin-import-helpers": "^1.1.0",
+        "eslint-plugin-prettier": "^4.0.0",
+        "eslint-plugin-vue": "^8.5.0",
+        "husky": "^7.0.4",
+        "prettier": "^2.6.1"
+    }
+}
