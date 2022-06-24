@@ -10,7 +10,7 @@ export default {
         return {
             menu: [
                 {
-                    header: 'DASHBOARD',
+                    header: 'JR DATA CAIXA ',
                     hiddenOnCollapse: true,
                 },
                 {
@@ -56,10 +56,11 @@ export default {
 }
 </script>
 
-<style>
+<style >
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300&display=swap');
 .v-sidebar-menu {
-    background-color: #993399;
+    background: rgb(232,34,232);
+background: linear-gradient(0deg, rgba(232,34,232,1) 0%, rgba(153,51,153,1) 100%);
     font-family: 'Poppins', sans-serif;
     position: fixed;
     top: 0;
@@ -244,11 +245,12 @@ export default {
 }
 
 .vsm--header {
-    font-size: 14px;
+    font-size: 20px;
     font-weight: 600;
-    padding: 10px 15px;
+    padding: 20px 25px;
     white-space: nowrap;
     text-transform: uppercase;
+    
 }
 
 .vsm--badge {

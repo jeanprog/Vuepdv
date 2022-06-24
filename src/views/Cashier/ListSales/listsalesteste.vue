@@ -71,16 +71,23 @@ export default {
     return { searchedSales, searchQuery };
   
   },
-methods: {
+
   
+    
+methods: {
+   
   
   deleteSales(sales) {
       console.log('evento acionado')
+      let sum = parseInt(this.listProdutos.find(x => x.name === this.productselected,).amount) - parseInt(this.amount)
+             console.log(sub)
+
       if (window.confirm("deseja mesmo deletar o produto?")) {
       
       
           db.collection('sales').doc(sales.id).delete().then(() => {
            window.alert("produto deletado com sucesso")
+           window.location.reload();
           
             
           })

@@ -1,11 +1,15 @@
 <template >
-  <div class="list">
-    <h1> ESTOQUE</h1>
+ <body>
+      <button class="Register-product" @click = "redirectproduct()">adicionar novo produto</button>
+
+  <h2 class="titulo"> ESTOQUE</h2>
       <input type="search" placeholder="Pesquisar Produto" v-model="searchQuery" />
       
       
    <h4>PRODUTO VALOR QUANTIDADE DESCRIÇÃO</h4>
     
+  <div class="list">
+   
     <div
       class="collection-item"
       v-for="products in searchedProducts"
@@ -17,7 +21,7 @@
      <div class= "dados" id="prince"> {{products.prince}} </div>
      <div class= "dados" id="amount">   {{products.amount}} </div>
      <div class= "dados" id="description">{{products.description}}</div>  
-      <div class='btn-delete' @click= "deleteProducts(products)">
+      <div class='btn-delete' @click= "deleteproduct(products)">
        <span class="fa fa-trash pointer"></span>
        </div>
        <div class='btn-edit' @click="edit(products.id)" >
@@ -25,7 +29,7 @@
       </div>
     </div>
   </div>
-  
+  </body>
 </template>
 
 // @ is an alias to /src
@@ -72,24 +76,19 @@ export default {
   
   },
 methods: {
-  
-  
-        edit(idproduct) {
-      this.$router.push({ name: 'RegisterProducts' , params: {id: idproduct}})
-
-    },
+  redirectproduct() {
+    this.$router.push({ name: 'RegisterProducts'})
+  },
+   edit(idproduct) {
+    this.$router.push({ name: 'RegisterProducts' , params: {id: idproduct}})
+},
    
-
-     deleteproduct(products) {
-     
-      if (window.confirm("deseja mesmo deletar o produto?")) {
-      
-      
-          db.collection('products').doc(products.id).delete().then(() => {
+   deleteproduct(products) {
+     if (window.confirm("deseja mesmo deletar o produto?")) {
+           db.collection('products').doc(products.id).delete().then(() => {
            window.alert("produto deletado com sucesso")
-           this.$router.push({ name: 'list' });
-            
-          })
+           window.location.reload();
+        })
           .catch((error) => {
             console.error(error);
           });
@@ -97,24 +96,49 @@ methods: {
       
      
      },
-
- 
-}
+   }
 };
-
-    
 
 </script>
 
 <style scoped>
- h1 {
-  position: relative; 
-  left: 550px;
-  top:10px;
+ .Register-product {
+   background: #993399;
+    color: white;
+    width: 200px;
+    height: 30px;
+    border-radius: 10px;
+    position: relative;
+    font-family: 'Poppins', sans-serif;
+    text-shadow: none;
+    cursor: pointer ;    
+    position: relative !important; 
+    top:150px;
+    left: 900px; 
+    border:solid;
  }
+ .titulo {
+  position: relative; 
+  left: 580px;
+  top:20px;
+  border: none;
+ 
+ }
+ body { 
+ 
+  height: 94vh;
+}
 .list {
  
-  height: 90vh;
+   box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+
+  height: 50vh;
+  width: 50%!important;
+  overflow: scroll!important;
+  border-radius: 10px;
+  left: 400px;
+  top: 150px;
+  position: relative!important;
   
   
 }
@@ -123,35 +147,44 @@ input {
     top: 60px!important;
     left: 500px !important;
     width: 350px;
-    border: 1px solid rgb(200, 200, 200);
+    border: 1px solid #993399!important;
     outline: 0;
     font-size: 15px;
     padding: 7px;
-    border-radius: 10px;
+    border-radius: 20px;
+    
 }
 h4 {
   margin-left:300px!important;
   justify-content: space-around;
-  position: relative;
-  top: 90px!important;
+  position: absolute;
+  top:200px!important;
   letter-spacing: 2px!important;
   word-spacing: 10px!important; 
-  left: 30px!important;
+  left: 160px!important;
+  
+    border: 1px solid #993399!important;
+  border-radius: 10px;
+  background-color: #fbf7fb;
+
+   box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+   padding: 10px;
+ 
 }
+  
 
 .collection-item {
-    margin-left: 300px!important;
+    margin-left: 60px!important;
     
     display: flex;
-    width: 60%;
+    width: 80%;
     justify-content: space-around;
     padding: 0.9%;
     border:solid white;
-    
-    
     position: relative;
-    top: 100px;
-    background-color: #D6DEE2
+    top: 10px;
+    background-color: #fbf7fb;
+    
 }
 .dados {
   
@@ -165,17 +198,37 @@ h4 {
     cursor: pointer;
     color: white;
     left: 12px!important;
-    top: 7px!important;
+    top: 9px!important;
     position: relative!important;
 }
 
 .btn-delete  {
-  margin-left: 150px;
+  margin-left: 100px;
    background-color: #993399!important;
   position:relative;
  border-radius: 4px;
   width: 40px;
   left: 20px;
+}
+
+
+
+#id {
+  min-width: 20%;
+  margin-left: 20px!important;
+ 
+}
+#description {
+  min-width: 5%;
+}
+#name {
+  min-width: 15%;
+}
+#amount {
+  min-width: 1%;
+}
+#price {
+  min-width: 25%;
 }
 
 .btn-edit {

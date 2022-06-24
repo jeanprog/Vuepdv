@@ -74,7 +74,7 @@ const signIn = () => {
     margin-right:0px!important;; 
     margin-bottom:0px!important;;
     margin-left: 0px!important;;
-    background-color: #993399 !important;
+    background: linear-gradient(0deg, rgba(232,34,232,1) 0%, rgba(153,51,153,1) 100%);
     height: 100vh !important;
     width: 100% !important;
     position: absolute;
@@ -85,7 +85,7 @@ body {
 }
 h1 {
     
-  
+   border: none!important;
     position: relative!important;
     left:150px;
     

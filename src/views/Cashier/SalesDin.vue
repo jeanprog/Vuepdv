@@ -1,6 +1,6 @@
 <template>
 
- <h4> R$ {{xCashier}} </h4>
+ <h4> R$ {{parseFloat(xCashier).toFixed(2)}} </h4>
  
      
 
@@ -24,6 +24,7 @@ export default {
          
           listSales:[],
           xCashier: 0,
+          
         
         };
         
@@ -48,11 +49,26 @@ export default {
             
           });
         }).then(() => {
-              this.xCashier = this.listSales.filter((din) => din.payment === "dinheiro").reduce((total , item) => item.prince_sale + total , 0)
-              console.log(this.xCashier)
+              
+        let today = new Date();
+        let dd = today.getDate();
+        let mm = today.getMonth();
+        let yyyy = today.getFullYear();
+        console.log(today.toLocaleDateString())
+    if (dd < 10) {
+       dd = '0' + dd;
+    }
+    if (mm < 10) {
+       mm = '0' + mm;
+    }
+              let filterByExpiration = this.listSales.filter((items)  => {
+              let b = items.date === today.toLocaleDateString()
+                  return  b
+                  console.log(filterByExpiration)
                   
-                
-                
+           })
+              this.xCashier = filterByExpiration.filter((din) => din.payment === "dinheiro").reduce((total , item) => item.prince_sale + total , 0)
+              console.log(this.xCashier)
             }) 
       },
      

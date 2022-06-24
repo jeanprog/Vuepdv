@@ -1,4 +1,5 @@
 <template>
+ <h2>REGISTRE SEU PRODUTO</h2>
     <section class ="registerprod">
         
         <form className="new-product1" @submit.prevent="saveProducts()">
@@ -122,7 +123,16 @@ created(){
 
 <style scoped>
 
-
+h2 { 
+  position: relative;
+  left: 550px;
+  top: 100px;
+  border-radius: 4px;
+   box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+  width: 60vh;
+  text-align: center;
+  background: #fbf7fb;;
+}
 .registerprod {
   
     
@@ -134,7 +144,7 @@ created(){
     height: 94vh !important;
     width: 70% !important;
     
-    top: 50px;
+    top: 80px;
 }
 
 .new-product1 { 
@@ -144,8 +154,12 @@ created(){
   align-items: center!important;
   margin-top: 100px !important;
   flex-direction: column!important;
-  
+   box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+  width: 60vh;
   height: 400px;
+  left: 300px;
+  top: 60px;
+  background: #fbf7fb;
 
 }
 
@@ -155,7 +169,7 @@ created(){
     outline: 0;
     font-size: 15px;
     padding: 7px;
-    border-radius: 10px;
+    border-radius: 15px;
     
 }
 
