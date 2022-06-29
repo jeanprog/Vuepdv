@@ -41,7 +41,8 @@
 import { createProduct } from './DataService'
 import {getProducts} from './DataService'
 import { db } from '../../config/firebase'
-import { setProducts} from './DataService'
+import { updateProducts} from './DataService'
+import {editgetProducts} from './DataService'
 import { ref } from 'vue';
 
 export default {
@@ -60,14 +61,13 @@ export default {
 
 
 created(){
+    
+    this.id = this.$route.params.id
       
-      
-      this.id = this.$route.params.id
-      console.log(this.id)
-      if(this.id){
-        db.collection('products').doc(this.id)
-        .get()
-        .then(snapshot => {
+    if(this.id){
+        let id = this.id
+       editgetProducts(id)
+       .then(snapshot => {
           const objetoproducts = snapshot.data()
           this.name = objetoproducts.name
           this.description = objetoproducts.description
@@ -103,18 +103,21 @@ created(){
                 this.$router.push({ name: 'list' });
             })
         },
-         updateProduct(){
-           
-        db.collection('products').doc(this.id).set({name: this.name,
-                description: this.description,
-                prince: this.prince,
-                amount: this.amount,})
-                .then(() => {
-         
-          this.$router.push({ name: 'list' });
-          console.log('atualizei')
-          window.alert("produto atualizado com sucesso")
-        })
+updateProduct(){
+      let id = this.id
+    
+    updateProducts(id , {
+           name: this.name,
+           description: this.description,
+           prince: this.prince,
+           amount: this.amount
+    }).then(() => {
+           this.$router.push({ name: 'list' });
+           console.log('atualizei')
+           window.alert("produto atualizado com sucesso")
+    }).catch(error => {
+          {console.log(error)}
+        }) 
       },
     },
 }

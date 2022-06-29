@@ -63,6 +63,7 @@
 
 <script>
 import { getSales } from './service'
+import { deleteSalesapi } from './service'
 import { ref } from 'vue';
 import {db} from '../../config/firebase'
 
@@ -154,12 +155,11 @@ methods:{
       },
       
    deleteSales(sales) {
-      console.log('evento acionado')
-      if (window.confirm("deseja mesmo deletar o produto?")) {
       
-      
-          db.collection('sales').doc(sales.id).delete().then(() => {
-           window.alert("produto deletado com sucesso")
+      if (window.confirm("deseja mesmo deletar a venda?")) {
+      let id = sales.id
+       deleteSalesapi(id).then(() => {
+           window.alert("venda deletado com sucesso")
            this.$router.push({ name: 'ListSales' });
             
           })

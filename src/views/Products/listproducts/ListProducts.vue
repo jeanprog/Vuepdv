@@ -39,9 +39,11 @@
 <script>
 
 import { ref } from 'vue';
-import {db} from '../../../config/firebase'
-
+import {db} from '../../../config/firebase';
 import { computed, onMounted, reactive } from "vue";
+import {getProducts} from '../DataService';
+import {deleteProducts} from '../DataService';
+
 
 export default {
   setup() {
@@ -60,9 +62,7 @@ export default {
     
     onMounted(async () => {
       try {
-        const productsSnap = await db
-          .collection("products")
-          .get();
+        const productsSnap = await getProducts()
         productsSnap.forEach((doc) => {
           let objetoproducts = doc.data();
           objetoproducts.id = doc.id;
@@ -79,24 +79,27 @@ methods: {
   redirectproduct() {
     this.$router.push({ name: 'RegisterProducts'})
   },
-   edit(idproduct) {
+  edit(idproduct) {
     this.$router.push({ name: 'RegisterProducts' , params: {id: idproduct}})
-},
+  },
    
-   deleteproduct(products) {
+ deleteproduct(products) {
+    let id = products.id
+    
      if (window.confirm("deseja mesmo deletar o produto?")) {
-           db.collection('products').doc(products.id).delete().then(() => {
-           window.alert("produto deletado com sucesso")
-           window.location.reload();
+           deleteProducts(id)
+           .then(() => {
+                  window.alert("produto deletado com sucesso")
+                  window.location.reload();
         })
           .catch((error) => {
             console.error(error);
           });
-      }
-      
-     
-     },
-   }
+    }
+  },
+
+ }
+
 };
 
 </script>

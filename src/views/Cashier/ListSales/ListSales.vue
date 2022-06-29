@@ -4,11 +4,7 @@
     
     <button class="controlecaixa" @click = "redirectcashier()">vendas por periodo</button>
     <div>
-      <div class="" 
-        v-for="sales in filterDate "
-        v-bind:key="sales.id" >
-       <div class="test1"> {{sales.product_name }}</div>  
-        </div>
+      
        
         
 
@@ -42,6 +38,7 @@
 
 <script>
 import { getSales } from '../service'
+import{deleteSalesapi} from '../service'
 import { ref } from 'vue';
 import {db} from '../../../config/firebase'
 
@@ -60,12 +57,11 @@ export default {
         
     },
 
-     created (){
+created (){
       this.listar() 
-      
-      },
+},
   
-        computed: {
+computed: {
           
     filteredSales() {
       let searchsales = [];
@@ -78,85 +74,48 @@ export default {
      return searchsales 
      
      },  
-
-     filterDate () { 
-              
-            if (this.startDate && this.endDate) {
-                let date = this.startDate;
-                console.log(date)
-                let myArray = date.split("-");
-                console.log(myArray);
-              
-                const d = new Date();
-                d.setFullYear(parseInt(myArray[0]), parseInt(myArray[1]), parseInt(myArray[2]));
-                console.log(d) 
-                let endDt = this.endDate;
-                console.log(endDt)
-                let myArr = endDt.split("-");
-                console.log(myArr);
-              
-                const f = new Date();
-                f.setFullYear(parseInt(myArr[0]), parseInt(myArr[1]), parseInt(myArr[2]));
-                console.log(f) 
-                
-               let filterByExpiration = this.listSales.filter((items)  => {
-                      let b = items.date  
-                      b = b.split('/')
-                     console.log(b)
-                     let e = new Date();
-                     e.setFullYear(parseInt(b[2]) , parseInt(b[1]) , parseInt(b[0]))
-                     
-                       
-                  return e.getTime() >= d.getTime() && e.getTime() <= f.getTime()
-           })
-           
-             
-              return filterByExpiration
-            }
-     
-     },
-     
-
-    },
+},
    
  methods:{
        listar() {
-        getSales().then((snapshot) => {
-          this.listSales = [];
+        getSales()
+        .then((snapshot) => {
+           this.listSales = [];
           snapshot.forEach( doc => {
-            
-            let objectSales = {};
-                objectSales = doc.data ();
-                objectSales.id = doc.id;
-                
-            ref(this.listSales.push(objectSales));
+             let objectSales = {};
+                 objectSales = doc.data ();
+                 objectSales.id = doc.id;
+              
+               ref(this.listSales.push(objectSales));
             
           });
         }); 
       },
       
-   deleteSales(sales) {
+ deleteSales(sales) {
       console.log('evento acionado')
-      if (window.confirm("deseja mesmo deletar a venda?")) {
-      
-      
-          db.collection('sales').doc(sales.id).delete().then(() => {
+   if (window.confirm("deseja mesmo deletar a venda?")) {
+        
+      let id = sales.id
+          deleteSalesapi(id)
+         .then(() => {
            window.alert("venda apagada com sucesso ")
            this.$router.push({ name: 'ListSales' });
             
           })
-          .catch((error) => {
+         .catch((error) => {
             console.error(error);
-          });
-      }
+         });
+   }
      
-     },
+ },
      
  redirectcashier () {
             this.$router.push({ name: 'controlCashier' })
-  }   
-    },
+ }   
+    
 
+    },
 }
 
 </script>

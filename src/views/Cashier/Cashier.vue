@@ -69,12 +69,12 @@
                 </select>
                 
            <span id = "subtotal" style="font-weight:bold">  Subtotal: R$
-              {{parseFloat(this.valortotal)}} 
+              {{parseFloat(this.valortotal).toFixed(2)}} 
            </span>
            <label for="form-user-description" id="titulotroco">Dinheiro entrada</label>
            <input v-model="troco" type="number" class ="Inputtroco">
            <span style="font-weight:bold" id="trocotela">  Troco: R$
-              {{this.trococalc }} 
+              {{parseFloat(this.trococalc).toFixed(2) }} 
            </span>
               <button id ="trococashier" @click="calcTroco()">calcular</button>
                  <button @click="sell()">Realizar venda</button>
@@ -273,15 +273,7 @@ export default {
             
         },
 
-        updateProductamount(id) {
-            db.collection('products')
-                .doc(id)
-                .update({ amount: 'agoraatualizei' })
-                .then(() => {
-                    console.log('atualizei')
-                })
-        },
-    },
+    }
     
 }
 </script>
