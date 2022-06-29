@@ -117,10 +117,12 @@ import { ref } from 'vue'
 import { getProducts } from '../Products/DataService'
 import { db } from '../../config/firebase'
 import { createSales } from './service'
+import {updateEstoque} from './service'
 import {getSales} from './service'
 import SalesDin from './SalesDin.vue'
 import salesCredito from './salesCredito.vue'
 import Salesdebito from './Salesdebito.vue'
+
 export default {
     name: 'ListProducts',
     components: {SalesDin,
@@ -157,19 +159,19 @@ export default {
     
     
     
-    methods: {
+methods: {
         
-        addProduct() {
+addProduct() {
             
              let sub = parseInt(this.listProdutos.find(x => x.name === this.productselected,).amount) - parseInt(this.amount)
-             console.log(sub)
+                       console.log(sub)
             if (sub < 0) {
                 window.alert('quantidade ' + this.productselected +' indisponivel no estoque')
                 return 
             }
             
             let prince = parseFloat(this.amount) * parseFloat(this.listProdutos.find(y => y.name === this.productselected, ).prince)
-              this.valortotal += prince
+                this.valortotal += prince
              console.log(parseFloat(this.valortotal).toFixed(2))
           
 
@@ -191,40 +193,35 @@ export default {
                 
             )
              
-             
-            
-            
             this.productselected = ''
             this.amount = ''
             this.prince = ''
             this.total = ''
-        },
-        calcTroco() {
-            console.log(parseFloat(this.troco) - this.valortotal )
-            let calc = parseFloat(this.troco) - this.valortotal 
+},
+ calcTroco() {
+           
+        let calc = parseFloat(this.troco) - this.valortotal 
             this.trococalc += calc
-        },
-       
-          sell() {
-             let payment = this.payment
-           console.log(payment)
-        const salesfinish = this.sales.map(object => {
+ },
+ 
+ sell() {         
+    let payment = this.payment
+    const salesfinish = this.sales.map(object => {
         return {...object, payment: payment};
-        });
-         
-          console.log(salesfinish)
-         
-        salesfinish.forEach((value , index) => {   // foreach propriedade do array, nao funciona com o then, recomendado para funções assincronas ou muitos demoradas
-            
-           db.collection('sales').add(value).then(() => {
-          db.collection('products').doc(value.product_id).update({amount: value.update_estoque})
+    });
+         salesfinish.forEach((value , index) => {   // foreach propriedade do array, nao funciona com o then, recomendado para funções assincronas ou muitos demoradas
+            let id = value.product_id
+            let updateestoque = value.update_estoque
+            createSales(value)
+            .then(() => {
+          updateEstoque(id, updateestoque)
            console.log('atualizei')
             window.alert('venda concluida')
            window.location.reload();
          })
         }) 
 
-  },
+ },
     
         listar() {
             getProducts().then(snapshot => {
@@ -238,8 +235,9 @@ export default {
                 })
             })
         },
-        listarsales() {
-            getSales().then(snapshot => {
+listarsales() {
+    
+    getSales().then(snapshot => {
                 this.totalSales = []
                 snapshot.forEach(doc => {
                     console.log(doc)
@@ -271,10 +269,9 @@ export default {
                 
             })
             
-        },
+ },
 
-    }
-    
+ }
 }
 </script>
 <style>
