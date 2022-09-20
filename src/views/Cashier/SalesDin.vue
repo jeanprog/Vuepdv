@@ -1,5 +1,5 @@
 <template>
-
+  <div  class="fa-solid fa-dollar-sign"></div>
  <h4> R$ {{parseFloat(xCashier).toFixed(2)}} </h4>
  
      
@@ -36,11 +36,13 @@ export default {
       },
      
      methods:{
+      
        listar() {
-        getSales().then((snapshot) => {
+         let idUser = localStorage.getItem('id')
+        getSales(idUser).then((snapshot) => {
           this.listSales = [];
           snapshot.forEach( doc => {
-            console.log(doc);
+          
             let objectSales = {};
                 objectSales = doc.data ();
                 objectSales.id = doc.id;
@@ -54,7 +56,7 @@ export default {
         let dd = today.getDate();
         let mm = today.getMonth();
         let yyyy = today.getFullYear();
-        console.log(today.toLocaleDateString())
+        
     if (dd < 10) {
        dd = '0' + dd;
     }
@@ -64,11 +66,11 @@ export default {
               let filterByExpiration = this.listSales.filter((items)  => {
               let b = items.date === today.toLocaleDateString()
                   return  b
-                  console.log(filterByExpiration)
+                  
                   
            })
               this.xCashier = filterByExpiration.filter((din) => din.payment === "dinheiro").reduce((total , item) => item.prince_sale + total , 0)
-              console.log(this.xCashier)
+              
             }) 
       },
      

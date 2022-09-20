@@ -1,5 +1,5 @@
 <template>
-
+<div class="fa-solid fa-credit-card"></div>
  <h4> R$ {{parseFloat(xCashier).toFixed(2)}} </h4>
  
      
@@ -36,10 +36,11 @@ export default {
      
      methods:{
        listar() {
-        getSales().then((snapshot) => {
+         let idUser = localStorage.getItem('id')
+        getSales(idUser).then((snapshot) => {
           this.listSales = [];
           snapshot.forEach( doc => {
-            console.log(doc);
+           
             let objectSales = {};
                 objectSales = doc.data ();
                 objectSales.id = doc.id;
@@ -53,7 +54,7 @@ export default {
         let dd = today.getDate();
         let mm = today.getMonth();
         let yyyy = today.getFullYear();
-        console.log(today)
+        
     if (dd < 10) {
        dd = '0' + dd;
     }

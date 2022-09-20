@@ -1,18 +1,17 @@
-<template>
+<template style="border: solid;">
     
   
         
-        <div class="side-bar" v-if ="isLoggedIn">
-        <VueSidebarMenu />
+        <VueSidebarMenu v-if= "isLoggedIn" />
+       
+         
+            <div>
+         
+               <router-view/>
+               
         </div>
-            <body>
+       
         
-              <router-view />
-        </body>
-        
-        <div class="btn-sair">
-        <button  v-if = "isLoggedIn " @click="signOut">Sair</button>
-    </div>
 </template>
 
 // @ is an alias to /src
@@ -24,6 +23,8 @@ import VueSidebarMenu from './VueSidebarMenu'
 
 const router = useRouter()
 const isLoggedIn = ref(true)
+
+
 // runs after firebase is initialized
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
@@ -32,41 +33,60 @@ firebase.auth().onAuthStateChanged(function (user) {
         isLoggedIn.value = false // if we do not
     }
 })
+
 const signOut = () => {
     firebase.auth().signOut()
     router.push('/')
 }
 const authListener = firebase.auth().onAuthStateChanged(function (user) {
     if (!user) {
-        // not logged in
+        
+        // not logged in 
         alert('voce precisa estar logado para acessar essa rota')
         router.push('/')
     }
+    
+    localStorage.setItem("id", user.uid);
 })
 onBeforeUnmount(() => {
     // clear up listener
     authListener()
+    
 })
 </script>
 
-<style >
+<style>
 *{
 margin: 0px!important;
-overflow: hidden !important;
+
 font-family: 'Poppins', sans-serif!important;
 
+
+}
+html { 
+    height: 100%;
+}
+body { 
+    
+    min-height:100% !important;
+    
+    overflow:hidden;
+     width: 100% !important;
 }
 
-.btn-sair button{ 
+ button{ 
     cursor: pointer;
     background: #993399;
     color: white;
-    width: 100px;
+  
     order-radius: 10px;
-    position:relative;
-    left: 85%;
+   
+   
     font-family: 'Poppins', sans-serif;
     text-shadow: none;
     border: none;
+}
+#btn-sair { 
+    width: 100%;
 }
 </style>

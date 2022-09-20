@@ -30,7 +30,6 @@ import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
 import 'firebase/compat/firestore'
 import { useRouter } from 'vue-router' // import router
-
 const email = ref('')
 const password = ref('')
 const errMsg = ref() // ERROR MESSAGE
@@ -54,7 +53,6 @@ const signIn = () => {
                     errMsg.value = 'No account with that email was found'
                     window.alert('sua conta nao existe')
                     break
-
                 default:
                     errMsg.value = 'Email or password was incorrect'
                     break
@@ -65,8 +63,6 @@ const signIn = () => {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300&display=swap');
-
-
 .home {
   
     background-size: cover !important;
@@ -75,14 +71,11 @@ const signIn = () => {
     margin-bottom:0px!important;;
     margin-left: 0px!important;;
     background: linear-gradient(0deg, rgba(232,34,232,1) 0%, rgba(153,51,153,1) 100%);
-    height: 100vh !important;
+    height: 100% !important;
     width: 100% !important;
     position: absolute;
 }
-body {
-   width: 100% !important;
-    position: absolute;
-}
+
 h1 {
     
    border: none!important;
@@ -90,7 +83,6 @@ h1 {
     left:150px;
     
 }
-
 .container {
     width: 370px;
     height: 70vh;
@@ -98,12 +90,10 @@ h1 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-
     box-shadow: 0 0 5px rgba(0, 0, 1, 3);
     padding: 30px 4%;
     border-radius: 15px;
     font-family: 'Poppins', sans-serif;
-
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -122,7 +112,6 @@ h1 {
     
     top: 80px;
 }
-
 .container div.single-input input {
     position: relative;
     border-radius: 10px;
@@ -139,15 +128,12 @@ h1 {
 .container div.single-input input:focus {
     border-bottom: 2px solid #993399;
 }
-
 button {
     background: #993399;
     color: white;
-
     border-radius: 10px;
     height: 50px;
     width: 70%;
-
     font-family: 'Poppins', sans-serif;
     text-shadow: none;
     margin-left: 15% !important;
@@ -155,9 +141,9 @@ button {
     position: relative;
     border: none;
 }
-
 button:hover {
     background: #e0bcdd;
     cursor: pointer;
 }
+
 </style>

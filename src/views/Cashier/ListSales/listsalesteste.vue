@@ -1,16 +1,16 @@
 <template >
-  <div class="list">
+ 
     <h1>VENDAS</h1>
       <input type="search" placeholder="Search..." v-model="searchQuery" />
       
       
    <h4>PRODUTO VALOR QUANTIDADE PAGAMENTO</h4>
-    
+      <section style="max-height : 400px; border: solid; overflow:scroll;">
     <div
       class="collection-item"
       v-for="sales in searchedSales"
       :key="sales.id"
-     
+      style="max-height: 50px;"
     >
       
       <div class= "dados" id="name"> {{sales.product_name }}</div>
@@ -24,7 +24,8 @@
             </div> 
       
     </div>
-  </div>
+  
+  </section>
   
 </template>
 
@@ -36,6 +37,7 @@
 import { getSales } from '../service'
 import { ref } from 'vue';
 import {db} from '../../../config/firebase'
+import {getSalesuser} from '../service'
 
 import { computed, onMounted, reactive } from "vue";
 
@@ -76,7 +78,6 @@ export default {
     
 methods: {
    
-  
   deleteSales(sales) {
       console.log('evento acionado')
       let sum = parseInt(this.listProdutos.find(x => x.name === this.productselected,).amount) - parseInt(this.amount)
@@ -105,90 +106,6 @@ methods: {
 </script>
 
 <style scoped>
- h1 { 
-  position: relative; 
-  left: 550px;
-  top: 10px;
-
- }
-.list {
  
-  height: 90vh;
-  
-  
-}
-input { 
-    position: relative;
-    top: 60px!important;
-    left: 500px !important;
-    width: 350px;
-    border: 1px solid rgb(200, 200, 200);
-    outline: 0;
-    font-size: 15px;
-    padding: 7px;
-    border-radius: 10px;
-}
-h4 {
-  margin-left:300px!important;
-  justify-content: space-around;
-  position: relative;
-  top: 90px!important;
-  letter-spacing: 2px!important;
-  word-spacing: 10px!important; 
-  left: 30px!important;
-}
-
-.collection-item {
-    margin-left: 300px!important;
-    
-    display: flex;
-    width: 60%;
-    justify-content: space-around;
-    padding: 0.9%;
-    border:solid white;
-    
-    
-    position: relative;
-    top: 100px;
-    background-color: #D6DEE2
-}
-.dados {
-  
-  padding: 0.9%; 
-  display: inline;
- 
-  
-  }
-  
-  .pointer {
-    cursor: pointer;
-    color: white;
-    left: 12px!important;
-    top: 9px!important;
-    position: relative!important;
-}
-
-.btn-delete  {
-  margin-left: 150px;
-   background-color: #993399!important;
-  position:relative;
- border-radius: 4px;
-  width: 40px;
-  left: 20px;
-}
-
-.btn-edit {
-  position:relative;
-  top: 10px;
-  left: 30px;
-  margin-left: 70px;
-  width: 40px;
-  background-color: #993399!important;
-  border-radius: 4px;
-  border: solid;
-  
-  
-}
-
 
 </style>

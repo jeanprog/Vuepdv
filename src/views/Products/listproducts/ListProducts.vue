@@ -1,15 +1,15 @@
 <template >
- <body>
-      <button class="Register-product" @click = "redirectproduct()">adicionar novo produto</button>
-
-  <h2 class="titulo"> ESTOQUE</h2>
-      <input type="search" placeholder="Pesquisar Produto" v-model="searchQuery" />
+ 
       
+      <div class = "titulo">
+        <h2> ESTOQUE</h2>
+        <input type="search" placeholder="Pesquisar Produto" v-model="searchQuery" />
+      </div>
       
-   <h4>PRODUTO VALOR QUANTIDADE DESCRIÇÃO</h4>
+   <h4>PRODUTO VALOR QUANTIDADE DESCRIÇÃO APAGAR/EDITAR</h4>
     
-  <div class="list">
-   
+  
+     <section>
     <div
       class="collection-item"
       v-for="products in searchedProducts"
@@ -17,19 +17,20 @@
      
     >
       
-      <div class= "dados" id="name"> {{products.name }}</div>
+     <div class= "dados" id="name"> {{products.name }}</div>
      <div class= "dados" id="prince"> {{products.prince}} </div>
      <div class= "dados" id="amount">   {{products.amount}} </div>
-     <div class= "dados" id="description">{{products.description}}</div>  
-      <div class='btn-delete' @click= "deleteproduct(products)">
+     <div class= "dados" id="description">{{products.description}}</div>
+         
+      <div class='deleteproduct' @click= "deleteproduct(products)">
        <span class="fa fa-trash pointer"></span>
        </div>
-       <div class='btn-edit' @click="edit(products.id)" >
+       <div class='editproduct' @click="edit(products.id)" >
               <span class="fa fa-pen pointer"></span> 
       </div>
     </div>
-  </div>
-  </body>
+  </section>
+  <button class="Register-product" @click = "redirectproduct()">adicionar novo produto</button>
 </template>
 
 // @ is an alias to /src
@@ -59,17 +60,24 @@ export default {
       });
     });
     
-    
+     
+
     onMounted(async () => {
       try {
-        const productsSnap = await getProducts()
+        let idUser = localStorage.getItem('id')
+       
+       const productsSnap = await getProducts(idUser)
+       
+    
         productsSnap.forEach((doc) => {
-          let objetoproducts = doc.data();
+           
+           let objetoproducts = doc.data();
+           console.log(objetoproducts)
           objetoproducts.id = doc.id;
-          ref(listProducts.push(objetoproducts));
-        });
+          ref(listProducts.push(objetoproducts));  
+        }); 
       } catch (e) {
-        console.log("Error Loading Products");
+        console.log(e);
       }
     });
     return { searchedProducts, searchQuery };
@@ -85,9 +93,10 @@ methods: {
    
  deleteproduct(products) {
     let id = products.id
+    let idUser = localStorage.getItem('id')
     
      if (window.confirm("deseja mesmo deletar o produto?")) {
-           deleteProducts(id)
+           deleteProducts(idUser , id)
            .then(() => {
                   window.alert("produto deletado com sucesso")
                   window.location.reload();
@@ -105,50 +114,36 @@ methods: {
 </script>
 
 <style scoped>
- .Register-product {
+
+.Register-product {
    background: #993399;
     color: white;
-    width: 200px;
-    height: 30px;
+    margin-left: 40%!important;
+    margin-top: 5%!important;
     border-radius: 10px;
-    position: relative;
+ 
     font-family: 'Poppins', sans-serif;
     text-shadow: none;
     cursor: pointer ;    
-    position: relative !important; 
-    top:150px;
-    left: 900px; 
-    border:solid;
+  
+    
+    
  }
  .titulo {
-  position: relative; 
-  left: 580px;
-  top:20px;
-  border: none;
+
+ height: 20vh!important;
+ display:flex; 
+ flex-direction: column;
+ align-items: center;
  
  }
- body { 
- 
-  height: 94vh;
-}
-.list {
- 
-   box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+ .titulo input { 
+  margin-top: 16px!important;
+ }
 
-  height: 50vh;
-  width: 50%!important;
-  overflow: scroll!important;
-  border-radius: 10px;
-  left: 400px;
-  top: 150px;
-  position: relative!important;
-  
-  
-}
+
 input { 
-    position: relative;
-    top: 60px!important;
-    left: 500px !important;
+ 
     width: 350px;
     border: 1px solid #993399!important;
     outline: 0;
@@ -158,40 +153,38 @@ input {
     
 }
 h4 {
-  margin-left:300px!important;
-  justify-content: space-around;
-  position: absolute;
-  top:200px!important;
-  letter-spacing: 2px!important;
-  word-spacing: 10px!important; 
-  left: 160px!important;
-  
-    border: 1px solid #993399!important;
+  width: 40%;
+  align-important: center;
+  margin-left: 30%!important;
+  text-align: center;
+ 
+  letter-spacing: 2% !important;
+  word-spacing: 24px!important; 
+
+  border: 1px solid #993399!important;
   border-radius: 10px;
   background-color: #fbf7fb;
-
    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
    padding: 10px;
  
 }
   
-
 .collection-item {
-    margin-left: 60px!important;
+    margin-left: 30%!important;
     
     display: flex;
-    width: 80%;
+    width: 40%;
     justify-content: space-around;
-    padding: 0.9%;
+    padding: 0.5%;
     border:solid white;
-    position: relative;
-    top: 10px;
+   
+    
     background-color: #fbf7fb;
     
 }
 .dados {
   
-  padding: 0.9%; 
+  padding: 0.5%; 
   display: inline;
  
   
@@ -204,28 +197,21 @@ h4 {
     top: 9px!important;
     position: relative!important;
 }
-
-.btn-delete  {
-  margin-left: 100px;
-   background-color: #993399!important;
-  position:relative;
- border-radius: 4px;
-  width: 40px;
-  left: 20px;
-}
-
-
-
-#id {
-  min-width: 20%;
-  margin-left: 20px!important;
+.deleteproduct  {
  
+  background-color: #993399!important;
+  width: 10%;
+  border-radius: 4px;
+ 
+  display: flex!important;
+  justify-content: center!important;
 }
+
 #description {
   min-width: 5%;
 }
 #name {
-  min-width: 15%;
+  min-width: 10%;
 }
 #amount {
   min-width: 1%;
@@ -233,19 +219,16 @@ h4 {
 #price {
   min-width: 25%;
 }
+.editproduct {
 
-.btn-edit {
-  position:relative;
   
-  left: 10px;
-  margin-left: 70px;
-  width: 40px;
+  
+  width: 10%;
   background-color: #993399!important;
   border-radius: 4px;
   
   
   
 }
-
 
 </style>

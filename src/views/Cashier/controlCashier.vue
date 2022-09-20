@@ -1,15 +1,17 @@
 <template>
  
   <div class= 'items'>
-    
-    <input type="date" v-model = "startDate">
-   
-    <input type="date" v-model = "endDate" >
+    <div class="itens-input">
     <span class = 'datainicio'>Data inicio:</span>
+    <input type="date" v-model = "startDate">
     <span class = 'datafinal'>Data final:</span>
-    <button class="controlecaixa" @click = "redirectcashier()">voltar</button>
- 
-   
+    <input type="date" v-model = "endDate" >
+    </div>
+  <div class="itens-button">
+   <button class="controlecaixa" @click = "redirectcashier()">voltar</button>
+  </div>
+  </div>
+   <div class="cards-container">
    <div class="totalCashierdin">
      <span style="font-weight:bold">Total Dinheiro 
       <br>
@@ -29,14 +31,14 @@
        {{parseFloat(this.xCashierdebito).toFixed(2) }}
      </span>
    </div>  
-   <div class="totalCashier">
+   <div class="totalCashierControl">
      <span style="font-weight:bold">Total Periodo  
       <br>
        {{parseFloat(this.xCashier).toFixed(2) }}
      </span>
    </div> 
-   
- </div>       
+   </div>
+       
 <div class ='list'>
 <h4>PRODUTO VALOR QUANTIDADE PAGAMENTO DATA </h4>  
    <div class="collection-item" 
@@ -90,7 +92,7 @@ export default {
       
       },
   
-        computed: {
+  computed: {
           
  filterDate () { 
               
@@ -140,7 +142,8 @@ export default {
              
 methods:{
        listar() {
-        getSales().then((snapshot) => {
+        let idUser = localStorage.getItem('id')
+        getSales(idUser).then((snapshot) => {
           this.listSales = [];
           snapshot.forEach( doc => {
             
@@ -158,7 +161,9 @@ methods:{
       
       if (window.confirm("deseja mesmo deletar a venda?")) {
       let id = sales.id
-       deleteSalesapi(id).then(() => {
+      let idUser = localStorage.getItem('id')
+      
+       deleteSalesapi(idUser , id).then(() => {
            window.alert("venda deletado com sucesso")
            this.$router.push({ name: 'ListSales' });
             
@@ -180,135 +185,149 @@ methods:{
 </script>
 
 <style scoped>
+
+.items { 
+  margin-top: 2%!important;
+  height:30vh;
+
+  display: flex!important;
+  
+  aling-itens: center;
+  justify-content: center;
+  padding-left: 30%!important;
+}
+.itens-input { 
+  width: 50%;
+  
+  display: flex; 
+  flex-direction: column;
+  aling-itens: center; 
+  justify-content: center;
+}
+.itens-button { 
+
+  margin-top: 10%!important;
+}
+
 .datainicio {
-  position: relative;
-  right: 470px!important;
+  
   width: 20%;
-  bottom: 70px;
+  
   
 }
 .datafinal {
-  position: relative;
-  right: 550px!important;
-  width: 20%;
-  bottom: 10px;
 
+  width: 20%;
   
+  
+}
+.cards-container { 
+  display: flex!important; 
+  aling-itens: center;
+ 
+  height: 16vh; 
+ 
+  padding-left: 30%!important;
 }
 .controlecaixa {
   background: #993399;
     color: white;
     width: 200px;
     height: 30px;
+    margin-top: 30%;
     border-radius: 10px;
-    position: relative;
+    
     font-family: 'Poppins', sans-serif;
     text-shadow: none;
     cursor: pointer ;    
-    position: relative !important; 
-    top:1px;
-    left: 30px; 
-    border:solid;
+ 
+  
+ 
     
 }
-
-.totalCashier {
+.totalCashierControl {
     
-    position: relative !important;
+    
     width: 12%;
     height: 16vh;
      box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
     text-align: center;
     background: #fbf7fb;
-    top: -295px!important;
-    left: 300px!important;
-    right: 200px;
+  
+    
     border-radius: 20px;
     
 }
 .totalCashierdin {
     
-    position: relative !important;
+   
     width: 12%;
     height: 16vh;
      box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
     text-align: center;
     background: #fbf7fb;
-    top: 25px;
-    left: 700px!important;
-    right: 200px;
+   
+   
     border-radius: 20px;
     
 }
 .totalCashierdin span{
-    position: relative;
+   
     bottom: 300px;
 }
-
 .totalCashiercredito {
     
-    position: relative !important;
-    width: 12%;
-    height: 16vh;
-     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
-    text-align: center;
-    background: #fbf7fb;
-    top: -85px;
-    left: 500px!important;
-    right: 200px;
-    border-radius: 20px;
-    
-}
-.totalCashiercredito span{
-    position: relative;
-    bottom: 300px;
-}
-.totalCashierdebito {
-    
-    position: relative !important;
+   
     width: 12%;
     height: 16vh;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
     text-align: center;
     background: #fbf7fb;
-    top: -186px;
-    left: 900px!important;
+    
+    border-radius: 20px;
+    
+}
+.totalCashiercredito span{
+  
+    bottom: 300px;
+}
+.totalCashierdebito {
+    
+    
+    width: 12%;
+    height: 16vh;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+    text-align: center;
+    background: #fbf7fb;
+   
     
     border-radius: 20px;
     
 }
 .totalCashierdebito span{
-    position: relative;
+    
     bottom: 300px;
 }
-.items { 
-  
-  height:50vh;
-  
-  
-}
+
 .list {
-  left: 350px;
-  position: relative;
-  height: 50vh;
+  margin-top: 2%!important;
+  height: 40vh;
   width: 60%;
   border: 1px solid #D6DEE2;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
-  top: -60px;
+  margin-left: 28%!important;
   overflow: auto!important;
   border-radius: 30px;
 }
-
 input { 
-    margin-top: 20px!important;
-    margin-left: 500px !important;
+    
     width: 350px;
     border: 1px solid   #993399;
     outline: 0;
     font-size: 15px;
     padding: 7px;
     border-radius: 20px;
-    position: relative;
+   
     bottom:10px;
     
    
@@ -328,7 +347,6 @@ h4 {
   box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
   background: #fbf7fb;
   text-align: center;
-
 }
 .collection-item {
   margin-left: 30px!important;
@@ -340,8 +358,7 @@ h4 {
     border:solid white;
     
     
-    position: relative;
-    top: 40px!important;
+   
     background-color: #fbf7fb;
 }
 .dados {
@@ -357,7 +374,6 @@ h4 {
     top: 9px!important;
     position: relative!important;
 }
-
 .btn-delete  {
  margin-left: 150px;
    background-color: #993399!important;
@@ -366,13 +382,11 @@ h4 {
   width: 40px;
   left: 20px;
 }
-
 .btn-edit {
  margin-left: 20px;
   width: 40px;
    
 }
-
 #id {
   min-width: 5%;
   
